@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { baseURL } from '../context/global';
 import styled from 'styled-components';
 
@@ -128,6 +128,24 @@ const AnimeItem = () => {
           <h1>No Trailer Available</h1>
         )}
       </div>
+
+      <h3 className="title">Characters</h3>
+      <div className="characters">
+        {characters?.map((character, index) => {
+          const { role } = character;
+          const { images, name, mal_id } = character.character;
+
+          return (
+            <Link to={`/character/${mal_id}`} key={mal_id}>
+              <div className="character">
+                <img src={images?.jpg.image_url} alt="" />
+                <h4>{name}</h4>
+                <p>{role}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </AnimeItemStyled>
   );
 };
@@ -219,6 +237,27 @@ const AnimeItemStyled = styled.div`
       padding: 1.5rem;
       border-radius: 10px;
       background-color: #fff;
+    }
+  }
+
+  .characters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 2rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 5px solid #e5e7eb;
+
+    .character {
+      padding: 0.4rem 0.6rem;
+      border-radius: 7px;
+      background-color: #ededed;
+      transition: all 0.4s ease-in-out;
+
+      img {
+        width: 100%;
+      }
     }
   }
 `;
